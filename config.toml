@@ -1,0 +1,14 @@
+baseURL = "https://lancs.ac.uk/~simmsb/"
+languageCode = "en-uk"
+title = "~simmsb"
+theme = "hugo-classic"
+preserveTaxonomyNames = true
+pygmentsCodeFences = true
+pygmentsStyle = "pygments"
+
+[output."blogdown::html_page"]
+toc = true
+
+[params]
+description = "lancs.ac.uk/~simmsb"
+footer = "[GitHub](https://github.com/nitros12)"
