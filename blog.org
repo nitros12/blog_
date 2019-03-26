@@ -2,7 +2,7 @@
 #+HUGO_SECTION: posts/
 
 * Blog
-** t h e y  c o m b i n a t o r                                                                    :scheme:programming:
+** t h e   y - c o m b i n a t o r                                                                 :scheme:programming:
 :PROPERTIES:
 :EXPORT_FILE_NAME: the-y-combinator
 :EXPORT_DATE: 2019-03-20

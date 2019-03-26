@@ -1,4 +1,4 @@
-baseURL = "https://lancs.ac.uk/~simmsb/"
+baseURL = "/~simmsb/"
 languageCode = "en-uk"
 title = "~simmsb"
 theme = "hugo-classic"
@@ -10,5 +10,5 @@ pygmentsStyle = "pygments"
 toc = true
 
 [params]
-description = "lancs.ac.uk/~simmsb"
+description = "lancs/~simmsb"
 footer = "[GitHub](https://github.com/nitros12)"
