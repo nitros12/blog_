@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "max-comma": true,
+    "no-start-duplicated-conjunction": true,
+    "period-in-list-item": true,
+    "alex": true,
+    "write-good": true
+  },
+  "plugins": {
+    "@textlint/text": {
+      "extensions": [".org"]
+    }
+  }
+}

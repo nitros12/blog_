@@ -1,5 +1,5 @@
 #+HUGO_BASE_DIR: .
-#+HUGO_SECTION: posts/
+#+HUGO_SECTION: /
 
 * Blog
 ** t h e   y - c o m b i n a t o r                                                                 :scheme:programming:
@@ -20,7 +20,7 @@ owo
 :EXPORT_DATE: 2019-03-20
 :END:
 
-One of the many good features of python is it's native support for coroutines,
+One of the good features of python is it's native support for coroutines,
 generalised functions that can be paused and resumed, allowing objects to be
 passed between the coroutine and whoever is running them when at the time.
 
@@ -54,7 +54,7 @@ def make_request(url):
     return my_http_lib.get(url).then(lambda r: r["data"]["some_value"])
 #+END_SRC
 
-But that leads to messy code happening very quickly, instead async functions the
+However that leads to messy code happening quickly, instead async functions the
 following could be written:
 
 #+BEGIN_SRC python
@@ -215,8 +215,18 @@ Done some more math, ended with: 7
 
 Pretty neat, huh?
 
+** Writing a discord library using Polysemy                                                        :programming:haskell:polysemy:free_monads:
+:PROPERTIES:
+:EXPORT_FILE_NAME: writing-a-discord-library-using-polysemy
+:EXPORT_DATE: 2020-04-24
+:END:
+
+Recently I've rewritten my [[github:nitros12/calamity][discord library]] to use [[github:isovector/polysemy][polysemy]] instead of mtl/transformers
+
 * Footnotes
 * COMMENT Local Variables                                                                           :ARCHIVE:
 # Local Variables:
 # eval: (org-hugo-auto-export-mode)
 # End:
+
+#  LocalWords:  haskell monads coroutines
