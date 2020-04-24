@@ -11,4 +11,5 @@ toc = true
 
 [params]
 description = "lancs/~simmsb"
-footer = "[GitHub](https://github.com/nitros12)"
+footer = "[GitHub](https://github.com/nitros12) | [Blog Source](https://github.com/nitros12/blog_)"
+rfooter = "This blog was written in [Emacs](https://www.gnu.org/software/emacs/)"
