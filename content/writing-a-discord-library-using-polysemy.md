@@ -7,8 +7,8 @@ draft = false
 +++
 
 Recently I've rewritten my [discord library](https://github.com/nitros12/calamity) to use [polysemy](https://github.com/isovector/polysemy) instead of
-mtl/transformers, in this and some upcoming blog post I'll be writing about the
-challenges I faced and solved[^fn:1] while going about the conversion.
+mtl/transformers, in this[^fn:1] and some upcoming blog post I'll be writing about the
+challenges I faced and solved[^fn:2] while going about the conversion.
 
 
 ## Logging {#logging}
@@ -57,7 +57,7 @@ and I could probably rewrite this to just reinterpret the `Di` effect in terms
 of `Reader`.
 
 However this interpreter needs to get a [`Di.Core.Di`](https://hackage.haskell.org/package/di-core-1.0.4/docs/Di-Core.html#t:Di) from somewhere, and the
-only place to do that[^fn:2] is to use [Di.Core.new](https://hackage.haskell.org/package/di-core-1.0.4/docs/Di-Core.html#v:new) which has the signature:
+only place to do that[^fn:3] is to use [Di.Core.new](https://hackage.haskell.org/package/di-core-1.0.4/docs/Di-Core.html#v:new) which has the signature:
 
 ```haskell
 new
@@ -70,9 +70,9 @@ new
 
 That [`MonadMask`](https://hackage.haskell.org/package/exceptions-0.10.0/docs/Control-Monad-Catch.html#t:MonadMask) constraint means that we can't just use polysemy's `Sem r`
 monad, my first resolution to this was to [copy the source of `new`](https://github.com/nitros12/di-polysemy/blob/863cc0072d846b1d96eca6467bc836bd098f7bb7/src/DiPolysemy.hs#L68-L124) and replace
-[`Control.Exception.Safe.finally`](http://hackage.haskell.org/package/safe-exceptions-0.1.7.0/docs/Control-Exception-Safe.html#v:finally) with polysemy's [`Resource.finally`](https://hackage.haskell.org/package/polysemy-1.3.0.0/docs/Polysemy-Resource.html#v:finally)[^fn:3]
+[`Control.Exception.Safe.finally`](http://hackage.haskell.org/package/safe-exceptions-0.1.7.0/docs/Control-Exception-Safe.html#v:finally) with polysemy's [`Resource.finally`](https://hackage.haskell.org/package/polysemy-1.3.0.0/docs/Polysemy-Resource.html#v:finally)[^fn:4]
 
-But this way required too much hackery for my liking, so I spent some time
+This way required too much hackery for my liking, so I spent some time
 figuring out how to lower a `Member (Embed IO) r => Sem r a` to `IO a`, and
 luckily the [`Resource`](https://hackage.haskell.org/package/polysemy-1.3.0.0/docs/src/Polysemy.Resource.html#resourceToIO) effect does pretty much what I want to do already, so my
 current solution is to create a higher order effect with a single operation:
@@ -177,6 +177,7 @@ Which produces the following:
 2020-04-25T03:59:44.452162458Z EMERGENCY and we're done
 ```
 
-[^fn:1]: although some of my solutions I feel aren't the best, and I'd love to be made aware of any alternate solutions
-[^fn:2]: Without writing my own logger
-[^fn:3]: Though this implementation probably doesn't respect async exceptions correctly in some way.
+[^fn:1]: This blog post was sponsored by [theophile.choutri.eu/microfund](https://theophile.choutri.eu/microfund.html)
+[^fn:2]: although some of my solutions I feel aren't the best, and I'd love to be made aware of any alternate solutions
+[^fn:3]: Without writing my own logger
+[^fn:4]: Though this implementation probably doesn't respect async exceptions correctly in some way.
