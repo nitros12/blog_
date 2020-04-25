@@ -1,4 +1,4 @@
-baseURL = "/~simmsb/"
+# baseURL = "/~simmsb/"
 languageCode = "en-uk"
 title = "~simmsb"
 theme = "hugo-classic"
