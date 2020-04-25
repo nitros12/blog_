@@ -1,0 +1,12 @@
+    <footer>
+      {{ partial "foot_custom.html" . }}
+      <hr/>
+      <span class="pull-left">
+        {{ .Site.Params.footer | markdownify }}
+      </span>
+      <span class="pull-right">
+        {{ .Site.Params.rfooter | markdownify }}
+      </span>
+      </footer>
+  </body>
+</html>
