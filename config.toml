@@ -4,7 +4,7 @@ title = "~simmsb"
 theme = "hugo-classic"
 preserveTaxonomyNames = true
 pygmentsCodeFences = true
-pygmentsStyle = "pygments"
+pygmentsStyle = "manni"
 
 [output."blogdown::html_page"]
 toc = true
