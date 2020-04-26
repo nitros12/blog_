@@ -145,7 +145,7 @@ info = log @D.Level @path D.Info . D.message
 
 The manual type applications would normally not be necessary if you were to use
 [`Polysemy.Plugin`](https://hackage.haskell.org/package/polysemy-plugin), but haddock currently (GHC 8.6.5) dies when it tries to build
-docs with the plugin enable.
+docs with the plugin enabled.
 
 
 ### Usage {#usage}
