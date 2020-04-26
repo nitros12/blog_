@@ -6,9 +6,14 @@ tags = ["programming", "haskell", "polysemy", "free-monads"]
 draft = false
 +++
 
-Recently I've rewritten my [discord library](https://github.com/nitros12/calamity) to use [polysemy](https://github.com/isovector/polysemy) instead of
-mtl/transformers, in this[^fn:1] and some upcoming blog post I'll be writing about the
-challenges I faced and solved[^fn:2] while going about the conversion.
+Recently I've migrated my [discord library](https://github.com/nitros12/calamity) from mtl/transformers to [polysemy](https://github.com/isovector/polysemy)
+after reading as many blog posts as I could find on it. My main reasons for
+wanting to migrate were escaping from having to write newtypes and all N
+instances every time I had a more than one effect in my stack, and how little
+boilerplate polysemy requires to write new effects.
+
+In this[^fn:1] and some upcoming blog post I'll be writing about the challenges I
+faced and solved[^fn:2] while going about the conversion.
 
 
 ## Logging {#logging}
@@ -19,7 +24,7 @@ logging 'scopes', at the time [co-log-polysemy](https://hackage.haskell.org/pack
 framework for polysemy and I was planning to use it, but instead I found [di](https://hackage.haskell.org/package/di) and
 decided to write a [Polysemy effect for it](https://github.com/nitros12/di-polysemy).
 
-The effect is higher order so I guess this is an example of writing higher order effects.
+The effect definition is the following:
 
 ```haskell
 data Di level path msg m a where

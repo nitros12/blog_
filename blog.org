@@ -221,9 +221,14 @@ Pretty neat, huh?
 :EXPORT_DATE: 2020-04-24
 :END:
 
-Recently I've rewritten my [[github:nitros12/calamity][discord library]] to use [[github:isovector/polysemy][polysemy]] instead of
-mtl/transformers, in this[fn:1] and some upcoming blog post I'll be writing about the
-challenges I faced and solved[fn:2] while going about the conversion.
+Recently I've migrated my [[github:nitros12/calamity][discord library]] from mtl/transformers to [[github:isovector/polysemy][polysemy]]
+after reading as many blog posts as I could find on it. My main reasons for
+wanting to migrate were escaping from having to write newtypes and all N
+instances every time I had a more than one effect in my stack, and how little
+boilerplate polysemy requires to write new effects.
+
+In this[fn:1] and some upcoming blog post I'll be writing about the challenges I
+faced and solved[fn:2] while going about the conversion.
 
 *** Logging
 The first effect that I converted from mtl to Polysemy was logging, originally I
@@ -232,7 +237,7 @@ logging 'scopes', at the time [[https://hackage.haskell.org/package/co-log-polys
 framework for polysemy and I was planning to use it, but instead I found [[https://hackage.haskell.org/package/di][di]] and
 decided to write a [[github:nitros12/di-polysemy][Polysemy effect for it]].
 
-The effect is higher order so I guess this is an example of writing higher order effects.
+The effect definition is the following:
 
 #+BEGIN_SRC haskell
 data Di level path msg m a where
