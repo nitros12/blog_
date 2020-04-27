@@ -183,6 +183,6 @@ Which produces the following:
 ```
 
 [^fn:1]: This blog post was sponsored by [theophile.choutri.eu/microfund](https://theophile.choutri.eu/microfund.html)
-[^fn:2]: although some of my solutions I feel aren't the best, and I'd love to be made aware of any alternate solutions
+[^fn:2]: Although some of my solutions I feel aren't the best, and I'd love to be made aware of any alternate solutions
 [^fn:3]: Without writing my own logger
 [^fn:4]: Though this implementation probably doesn't respect async exceptions correctly in some way.

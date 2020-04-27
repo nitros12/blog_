@@ -2,18 +2,6 @@
 #+HUGO_SECTION: /
 
 * Blog
-** t h e   y - c o m b i n a t o r                                                                 :scheme:programming:
-:PROPERTIES:
-:EXPORT_FILE_NAME: the-y-combinator
-:EXPORT_DATE: 2019-03-20
-:END:
-owo
-
-#+BEGIN_SRC scheme
-(λ (f)
-  ((λ (x) (f (x x)))
-   (λ (x) (f (x x)))))
-#+END_SRC
 ** Writing our own event loops in python                                                           :python:programming:
 :PROPERTIES:
 :EXPORT_FILE_NAME: writing-our-own-event-loops-in-python
@@ -396,7 +384,7 @@ Which produces the following:
 *** Footnotes
 [fn:1] This blog post was sponsored by [[https://theophile.choutri.eu/microfund.html][theophile.choutri.eu/microfund]]
 
-[fn:2] although some of my solutions I feel aren't the best, and I'd love
+[fn:2] Although some of my solutions I feel aren't the best, and I'd love
 to be made aware of any alternate solutions
 
 [fn:3] Without writing my own logger
