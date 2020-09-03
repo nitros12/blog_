@@ -24,6 +24,85 @@ logging 'scopes', at the time [co-log-polysemy](https://hackage.haskell.org/pack
 framework for polysemy and I was planning to use it, but instead I found [di](https://hackage.haskell.org/package/di) and
 decided to write a [Polysemy effect for it](https://github.com/nitros12/di-polysemy).
 
+I've updated this post with how the Di effect is implemented now, and left the
+old one in for reference.
+
+
+### Current implementation {#current-implementation}
+
+The current way I implement the logging effect is:
+
+```haskell
+data Di level path msg m a where
+  Log    :: level -> msg -> Di level path msg m ()
+  Flush  :: Di level path msg m ()
+  Local  :: (DC.Di level path msg -> DC.Di level path msg) -> m a -> Di level path msg m a
+  Fetch  :: Di level path msg m (Maybe (DC.Di level path msg))
+```
+
+The `Fetch` action is used to retrieve the current `Di` value if there is one,
+an interpreter that doesn't do anything may return Nothing.
+
+The handler for the effect is defined as follows:
+
+```haskell
+runDiToIOReader :: forall r a level msg. Members '[Embed IO, Reader (DC.Di level Df1.Path msg)] r
+      => Sem (Di level Df1.Path msg ': r) a
+      -> Sem r a
+runDiToIOReader = interpretH $ \case
+      Log level msg -> do
+        di <- ask @(DC.Di level Df1.Path msg)
+        (embed @IO $ DC.log di level msg) >>= pureT
+      Flush         -> do
+        di <- ask @(DC.Di level Df1.Path msg)
+        (embed @IO $ DC.flush di) >>= pureT
+      Local f m     -> do
+        m' <- runDiToIOReader <$> runT m
+        raise $ Polysemy.Reader.local @(DC.Di level Df1.Path msg) f m'
+      Fetch -> do
+        di <- Just <$> ask @(DC.Di level Df1.Path msg)
+        pureT di
+
+runDiToIO :: forall r level msg a. Member (Embed IO) r
+  => DC.Di level Df1.Path msg
+  -> Sem (Di level Df1.Path msg ': r) a
+  -> Sem r a
+runDiToIO di = runReader di . runDiToIOReader . raiseUnder
+```
+
+We make use of the existing `Reader` effect to manage holding the `Di` value for us.
+
+Additionally an interpreter can be defined that does nothing at all:
+
+```haskell
+runDiNoop :: forall r level msg a. Sem (Di level Df1.Path msg ': r) a -> Sem r a
+runDiNoop = interpretH \case
+      Log _level _msg -> pureT ()
+      Flush           -> pureT ()
+      Local _f  m     -> runDiNoop <$> runT m >>= raise
+      Fetch           -> pureT Nothing
+```
+
+After writing the interpreter, some helper functions can be written,
+they're fairly repetitive so I'll only include the first few:
+
+```haskell
+push :: forall level msg r a. Member (Di level Df1.Path msg) r => Df1.Segment -> Sem r a -> Sem r a
+push s = local @level @Df1.Path @msg (Df1.push s)
+
+attr_ :: forall level msg r a. Member (Di level Df1.Path msg) r => Df1.Key -> Df1.Value -> Sem r a -> Sem r a
+attr_ k v = local @level @Df1.Path @msg (Df1.attr_ k v)
+
+attr :: forall value level msg r a. (Df1.ToValue value, Member (Di level Df1.Path msg) r) => Df1.Key -> value -> Sem r a -> Sem r a
+attr k v = attr_ @level @msg k (Df1.value v)
+
+debug :: forall msg path r. (Df1.ToMessage msg, Member (Di Df1.Level path Df1.Message) r) => msg -> Sem r ()
+debug = log @Df1.Level @path D.Debug . Df1.message
+```
+
+
+### Old attempt {#old-attempt}
+
 The effect definition is the following:
 
 ```haskell
